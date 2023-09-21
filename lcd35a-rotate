@@ -1,0 +1,21 @@
+if test "$1" = "0" -o "$#" = "0"; then
+ sudo cp -rf ./boot/config.txt-35a-0 /boot/config.txt
+ sudo cp -rf ./etc/cmdline.txt-0 /boot/cmdline.txt
+ sudo cp -rf ./usr/99-calibration.conf-35a-0 /usr/share/X11/xorg.conf.d/99-calibration.conf
+elif test "$1" = "90"; then
+ sudo cp -rf ./boot/config.txt-35a-90 /boot/config.txt
+ sudo cp -rf ./etc/cmdline.txt-90 /boot/cmdline.txt
+ sudo cp -rf ./usr/99-calibration.conf-35a-90 /usr/share/X11/xorg.conf.d/99-calibration.conf
+elif test "$1" = "180"; then
+ sudo cp -rf ./boot/config.txt-35a-180 /boot/config.txt
+ sudo cp -rf ./etc/cmdline.txt-180 /boot/cmdline.txt
+ sudo cp -rf ./usr/99-calibration.conf-35a-180 /usr/share/X11/xorg.conf.d/99-calibration.conf
+elif test "$1" = "270"; then
+ sudo cp -rf ./boot/config.txt-35a-270 /boot/config.txt
+ sudo cp -rf ./etc/cmdline.txt-270 /boot/cmdline.txt
+ sudo cp -rf ./usr/99-calibration.conf-35a-270 /usr/share/X11/xorg.conf.d/99-calibration.conf
+else
+ echo "LCD Rotate Error"
+fi
+
+sudo reboot

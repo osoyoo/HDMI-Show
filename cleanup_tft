@@ -1,0 +1,4 @@
+sudo cp -rf ./boot/config.txt-org /boot/config.txt
+sudo cp -rf ./etc/cmdline.txt-org /boot/cmdline.txt
+sudo cp -rf ./etc/rc.local-org /etc/rc.local
+sudo reboot

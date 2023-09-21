@@ -1,0 +1,43 @@
+#!/bin/bash
+
+Rotate()
+{
+if test "$1" = "0"; then
+ sudo cp -rf ./usr/99-calibration.conf-hdmi35-0 /usr/share/X11/xorg.conf.d/99-calibration.conf
+elif test "$1" = "90"; then
+ sudo cp -rf ./usr/99-calibration.conf-hdmi35-90 /usr/share/X11/xorg.conf.d/99-calibration.conf
+elif test "$1" = "180"; then
+ sudo cp -rf ./usr/99-calibration.conf-hdmi35-180 /usr/share/X11/xorg.conf.d/99-calibration.conf
+elif test "$1" = "270"; then
+ sudo cp -rf ./usr/99-calibration.conf-hdmi35-270 /usr/share/X11/xorg.conf.d/99-calibration.conf
+else
+ echo "Display orientation should be 0, 90, 180, 270"
+fi
+}
+
+RotateInv()
+{
+if test "$1" = "0"; then
+ sudo cp -rf ./usr/99-calibration.conf-hdmi35-inv-0 /usr/share/X11/xorg.conf.d/99-calibration.conf
+elif test "$1" = "90"; then
+ sudo cp -rf ./usr/99-calibration.conf-hdmi35-inv-90 /usr/share/X11/xorg.conf.d/99-calibration.conf
+elif test "$1" = "180"; then
+ sudo cp -rf ./usr/99-calibration.conf-hdmi35-inv-180 /usr/share/X11/xorg.conf.d/99-calibration.conf
+elif test "$1" = "270"; then
+ sudo cp -rf ./usr/99-calibration.conf-hdmi35-inv-270 /usr/share/X11/xorg.conf.d/99-calibration.conf
+else
+ echo "Display orientation should be 0, 90, 180, 270"
+fi
+}
+
+if [ $# -eq 1 ]; then
+   Rotate $1
+elif [ $# -eq 2 ]; then
+   if test "$1" = "inv"; then
+      RotateInv $2
+   else
+      echo "Incorret argument"
+   fi
+fi
+
+sudo reboot

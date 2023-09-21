@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Name=BrightnessControl
+Comment=DSI 5/7" Dispaly
+Exec=python /usr/widget/brightness/brightness.py
+Icon=/usr/widget/brightness/brightness.png
+Path=/usr/widget/brightness/
+Terminal=false
+Type=Application
+Categories=Utility;Application;
+StartupNotify=false
+Name[en_IE]=brightness.desktop

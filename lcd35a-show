@@ -1,0 +1,26 @@
+sudo cp ./boot/overlays/osoyoo35a.dtb /boot/overlays/
+sudo cp ./boot/overlays/osoyoo35a.dtb /boot/overlays/osoyoo35a.dtbo
+
+#sudo install ./usr/rpi-fbcp/build/fbcp /usr/local/bin/fbcp
+
+sudo apt-get install cmake -y
+sudo mkdir ./usr/rpi-fbcp/build
+cd ./usr/rpi-fbcp/build/
+sudo cmake ..
+sudo make
+sudo install fbcp /usr/local/bin/fbcp
+cd ../../../
+
+sudo apt-get install xserver-xorg-input-evdev
+#sudo apt-get install -y xinput-calibrator
+sudo dpkg -i -B ./usr/xinput-calibrator_0.7.5-1_armhf.deb
+
+sudo cp -rf /usr/share/X11/xorg.conf.d/10-evdev.conf /usr/share/X11/xorg.conf.d/45-evdev.conf
+sudo cp -rf ./usr/99-fbturbo.conf /usr/share/X11/xorg.conf.d/99-fbturbo.conf
+sudo cp -rf ./etc/rc.local-fbcp /etc/rc.local
+
+if [ $# -eq 1 ]; then
+ sh ./lcd35a-rotate $1
+elif [ $# -eq 0 ]; then
+ sh ./lcd35a-rotate 0
+fi

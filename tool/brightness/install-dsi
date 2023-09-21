@@ -1,0 +1,14 @@
+sudo apt-get install python-tk
+
+sudo mkdir -p /usr/widget/brightness
+
+sudo cp -rf ./brightness.py /usr/widget/brightness/brightness.py
+sudo cp -rf ./brightness.png /usr/widget/brightness/brightness.png
+
+sudo cp -rf ./brightness.desktop /usr/share/raspi-ui-overrides/applications/
+sudo cp -rf ./brightness.desktop /usr/share/applications/
+
+sudo chmod +x /usr/widget/brightness/brightness.py
+sudo chmod +x /usr/share/applications/brightness.desktop
+sudo chmod +x /usr/share/raspi-ui-overrides/applications/brightness.desktop
+
