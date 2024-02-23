@@ -1,0 +1,69 @@
+#!/bin/bash
+
+InsertParam()
+{
+   if grep -w -q "^${2}" "${1}"
+      then
+         echo "already exists"
+      else
+         echo "${2}" >> "${1}"
+   fi
+}
+
+DisableParam()
+{
+   line=$(grep -n "${2}" "${1}" | awk '!/#/' | cut -d: -f1)
+   for i in $(echo $line | tr ";" " ")
+   do
+      echo $i
+      sed -i "${i} s/^/#/" $1
+   done
+}
+
+DeleteParam()
+{
+   sed -i "/$2/d" $1
+}
+
+# backup
+sudo cp -rf /boot/config.txt /boot/config.txt.bak
+sudo cp -rf /boot/config.txt /boot/config.txt.tmp
+
+# disable kms
+DisableParam /boot/config.txt.tmp "dtoverlay=vc4-kms-v3d"
+
+# enable fkms
+InsertParam /boot/config.txt.tmp "dtoverlay=vc4-fkms-v3d"
+
+# setup hdmi
+InsertParam /boot/config.txt.tmp "hdmi_group=2"
+InsertParam /boot/config.txt.tmp "hdmi_mode=87"
+InsertParam /boot/config.txt.tmp "hdmi_drive=1"
+InsertParam /boot/config.txt.tmp "hdmi_pixel_freq_limit=20000000"
+#InsertParam /boot/config.txt.tmp "hdmi_force_hotplug=1"
+InsertParam /boot/config.txt.tmp "hdmi_cvt 480 320 60 6 0 0 0"
+
+# rotate
+#InsertParam /boot/config.txt.tmp "display_rotate=0"
+
+InsertParam /boot/config.txt.tmp "dtoverlay=ads7846,cs=1,penirq=25,penirq_pull=2,speed=50000,keep_vref_on=0,swapxy=0,pmax=255,xohms=150,xmin=200,xmax=3900,ymin=200,ymax=3900"
+
+# install touch
+sudo apt-get install xserver-xorg-input-evdev
+#sudo dpkg -i -B ./usr/xserver-xorg-input-evdev_2.10.6-2_armhf.deb
+sudo apt-get install -y xinput-calibrator
+#sudo dpkg -i -B ./usr/xinput-calibrator_0.7.5-1_armhf.deb
+
+sudo cp -rf /usr/share/X11/xorg.conf.d/10-evdev.conf /usr/share/X11/xorg.conf.d/45-evdev.conf
+sudo cp -rf ./usr/99-fbturbo.conf /usr/share/X11/xorg.conf.d/99-fbturbo.conf
+
+if test "$1" = "inv"; then
+   sudo cp -rf ./usr/99-calibration.conf-hdmi35-inv-0 /usr/share/X11/xorg.conf.d/99-calibration.conf
+else
+   sudo cp -rf ./usr/99-calibration.conf-hdmi35-0 /usr/share/X11/xorg.conf.d/99-calibration.conf
+fi
+
+sudo cp -rf /boot/config.txt.tmp /boot/config.txt
+sudo rm -rf /boot/config.txt.tmp
+
+sudo reboot
